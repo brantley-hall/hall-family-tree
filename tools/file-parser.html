@@ -198,7 +198,7 @@
         }
 
         function parseGEDCOM(content) {
-            // Enhanced GEDCOM parser
+            // Enhanced GEDCOM parser with better name extraction
             const lines = content.split('\n');
             const people = [];
             const families = [];
@@ -207,16 +207,31 @@
             let currentEvent = null;
 
             for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
+                const line = lines[i].trim();
+                if (!line) continue;
+                
                 const level = parseInt(line.charAt(0));
-                const tag = line.substring(2, 6).trim();
-                const value = line.substring(7).trim();
+                const rest = line.substring(2);
+                const spaceIndex = rest.indexOf(' ');
+                const tag = spaceIndex > 0 ? rest.substring(0, spaceIndex).trim() : rest.trim();
+                const value = spaceIndex > 0 ? rest.substring(spaceIndex + 1).trim() : '';
 
                 if (level === 0) {
-                    // Handle 0 level records
-                    if (tag === 'INDI' || (value.startsWith('@') && value.includes('@') && line.includes('INDI'))) {
+                    // Handle 0 level records - improved detection
+                    if (tag === 'INDI' || line.includes('INDI') || (value.startsWith('@') && value.includes('@'))) {
                         if (currentPerson) people.push(currentPerson);
-                        const id = value.includes('@') ? value.replace(/@/g, '') : value;
+                        
+                        // Extract ID more robustly
+                        let id = '';
+                        if (value.startsWith('@') && value.includes('@')) {
+                            id = value.replace(/@/g, '');
+                        } else if (line.includes('@')) {
+                            const matches = line.match(/@([^@]+)@/);
+                            if (matches) id = matches[1];
+                        } else {
+                            id = 'I' + (people.length + 1);
+                        }
+                        
                         currentPerson = {
                             id: id,
                             first_name: '',
@@ -228,9 +243,20 @@
                             death_location: '',
                             notes: ''
                         };
-                    } else if (tag === 'FAM' || (value.startsWith('@') && value.includes('@') && line.includes('FAM'))) {
+                    } else if (tag === 'FAM' || line.includes('FAM')) {
                         if (currentFamily) families.push(currentFamily);
-                        const id = value.includes('@') ? value.replace(/@/g, '') : value;
+                        
+                        // Extract ID more robustly
+                        let id = '';
+                        if (value.startsWith('@') && value.includes('@')) {
+                            id = value.replace(/@/g, '');
+                        } else if (line.includes('@')) {
+                            const matches = line.match(/@([^@]+)@/);
+                            if (matches) id = matches[1];
+                        } else {
+                            id = 'F' + (families.length + 1);
+                        }
+                        
                         currentFamily = {
                             id: id,
                             husband: '',
@@ -239,11 +265,25 @@
                         };
                     }
                 } else if (level === 1 && currentPerson) {
-                    // Handle person attributes
+                    // Handle person attributes - improved name parsing
                     if (tag === 'NAME') {
-                        const names = value.split('/');
-                        currentPerson.first_name = names[0].trim();
-                        currentPerson.last_name = names[1] ? names[1].trim() : '';
+                        // Handle various name formats
+                        if (value.includes('/')) {
+                            // Standard GEDCOM format: First /Last/
+                            const names = value.split('/');
+                            currentPerson.first_name = names[0].trim();
+                            currentPerson.last_name = names[1] ? names[1].trim() : '';
+                        } else {
+                            // Non-standard format - try to split
+                            const parts = value.split(' ');
+                            if (parts.length > 1) {
+                                currentPerson.first_name = parts[0];
+                                currentPerson.last_name = parts.slice(1).join(' ');
+                            } else {
+                                currentPerson.first_name = value;
+                                currentPerson.last_name = '';
+                            }
+                        }
                     } else if (tag === 'SEX') {
                         currentPerson.gender = value;
                     } else if (tag === 'BIRT') {
@@ -273,11 +313,15 @@
                 } else if (level === 1 && currentFamily) {
                     // Handle family relationships
                     if (tag === 'HUSB') {
-                        currentFamily.husband = value.replace(/@/g, '');
+                        const matches = value.match(/@([^@]+)@/);
+                        currentFamily.husband = matches ? matches[1] : value.replace(/@/g, '');
                     } else if (tag === 'WIFE') {
-                        currentFamily.wife = value.replace(/@/g, '');
+                        const matches = value.match(/@([^@]+)@/);
+                        currentFamily.wife = matches ? matches[1] : value.replace(/@/g, '');
                     } else if (tag === 'CHIL') {
-                        currentFamily.children.push(value.replace(/@/g, ''));
+                        const matches = value.match(/@([^@]+)@/);
+                        const childId = matches ? matches[1] : value.replace(/@/g, '');
+                        currentFamily.children.push(childId);
                     }
                 }
             }
@@ -286,7 +330,7 @@
             if (currentPerson) people.push(currentPerson);
             if (currentFamily) families.push(currentFamily);
 
-            // Create placeholder people if none found but we have family relationships
+            // Only create placeholders if absolutely necessary and with better names
             if (people.length === 0 && families.length > 0) {
                 const allIds = new Set();
                 families.forEach(fam => {
@@ -298,14 +342,14 @@
                 allIds.forEach(id => {
                     people.push({
                         id: id,
-                        first_name: 'Person',
-                        last_name: id,
+                        first_name: 'Unknown',
+                        last_name: 'Person',
                         birth_date: '',
                         death_date: '',
                         gender: '',
                         birth_location: '',
                         death_location: '',
-                        notes: 'Created from family relationship'
+                        notes: 'Created from family relationship - needs manual editing'
                     });
                 });
             }
