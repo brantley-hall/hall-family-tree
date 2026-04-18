@@ -198,29 +198,48 @@
         }
 
         function parseGEDCOM(content) {
-            // Basic GEDCOM parser
+            // Enhanced GEDCOM parser
             const lines = content.split('\n');
             const people = [];
             const families = [];
             let currentPerson = null;
             let currentFamily = null;
+            let currentEvent = null;
 
-            for (let line of lines) {
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
                 const level = parseInt(line.charAt(0));
                 const tag = line.substring(2, 6).trim();
                 const value = line.substring(7).trim();
 
-                if (level === 0 && tag === 'INDI') {
-                    if (currentPerson) people.push(currentPerson);
-                    currentPerson = {
-                        id: value,
-                        first_name: '',
-                        last_name: '',
-                        birth_date: '',
-                        death_date: '',
-                        gender: ''
-                    };
+                if (level === 0) {
+                    // Handle 0 level records
+                    if (tag === 'INDI' || (value.startsWith('@') && value.includes('@') && line.includes('INDI'))) {
+                        if (currentPerson) people.push(currentPerson);
+                        const id = value.includes('@') ? value.replace(/@/g, '') : value;
+                        currentPerson = {
+                            id: id,
+                            first_name: '',
+                            last_name: '',
+                            birth_date: '',
+                            death_date: '',
+                            gender: '',
+                            birth_location: '',
+                            death_location: '',
+                            notes: ''
+                        };
+                    } else if (tag === 'FAM' || (value.startsWith('@') && value.includes('@') && line.includes('FAM'))) {
+                        if (currentFamily) families.push(currentFamily);
+                        const id = value.includes('@') ? value.replace(/@/g, '') : value;
+                        currentFamily = {
+                            id: id,
+                            husband: '',
+                            wife: '',
+                            children: []
+                        };
+                    }
                 } else if (level === 1 && currentPerson) {
+                    // Handle person attributes
                     if (tag === 'NAME') {
                         const names = value.split('/');
                         currentPerson.first_name = names[0].trim();
@@ -228,22 +247,68 @@
                     } else if (tag === 'SEX') {
                         currentPerson.gender = value;
                     } else if (tag === 'BIRT') {
-                        // Next line should contain the date
+                        currentEvent = 'BIRT';
                     } else if (tag === 'DEAT') {
-                        // Next line should contain the date
+                        currentEvent = 'DEAT';
+                    } else if (tag === 'OCCU') {
+                        currentPerson.occupation = value;
+                    } else if (tag === 'NOTE') {
+                        currentPerson.notes = (currentPerson.notes || '') + ' ' + value;
                     }
                 } else if (level === 2 && currentPerson) {
+                    // Handle event details
                     if (tag === 'DATE') {
-                        if (lines[lines.indexOf(line) - 1].includes('BIRT')) {
+                        if (currentEvent === 'BIRT') {
                             currentPerson.birth_date = value;
-                        } else if (lines[lines.indexOf(line) - 1].includes('DEAT')) {
+                        } else if (currentEvent === 'DEAT') {
                             currentPerson.death_date = value;
                         }
+                    } else if (tag === 'PLAC') {
+                        if (currentEvent === 'BIRT') {
+                            currentPerson.birth_location = value;
+                        } else if (currentEvent === 'DEAT') {
+                            currentPerson.death_location = value;
+                        }
+                    }
+                } else if (level === 1 && currentFamily) {
+                    // Handle family relationships
+                    if (tag === 'HUSB') {
+                        currentFamily.husband = value.replace(/@/g, '');
+                    } else if (tag === 'WIFE') {
+                        currentFamily.wife = value.replace(/@/g, '');
+                    } else if (tag === 'CHIL') {
+                        currentFamily.children.push(value.replace(/@/g, ''));
                     }
                 }
             }
 
+            // Add the last person/family if exists
             if (currentPerson) people.push(currentPerson);
+            if (currentFamily) families.push(currentFamily);
+
+            // Create placeholder people if none found but we have family relationships
+            if (people.length === 0 && families.length > 0) {
+                const allIds = new Set();
+                families.forEach(fam => {
+                    if (fam.husband) allIds.add(fam.husband);
+                    if (fam.wife) allIds.add(fam.wife);
+                    fam.children.forEach(child => allIds.add(child));
+                });
+                
+                allIds.forEach(id => {
+                    people.push({
+                        id: id,
+                        first_name: 'Person',
+                        last_name: id,
+                        birth_date: '',
+                        death_date: '',
+                        gender: '',
+                        birth_location: '',
+                        death_location: '',
+                        notes: 'Created from family relationship'
+                    });
+                });
+            }
 
             return {
                 people: people,
