@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family File Parser</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: #f8f6f3;
+            color: #2c3e50;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 2px dashed #8b4513;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            background: #f9f7f4;
+        }
+
+        .file-input {
+            margin: 20px 0;
+        }
+
+        .file-input input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .parse-btn {
+            background: #8b4513;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+        }
+
+        .parse-btn:hover {
+            background: #6d3410;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f8ff;
+            border-radius: 8px;
+            border-left: 4px solid #8b4513;
+        }
+
+        .format-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .format-info h3 {
+            color: #8b4513;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d00;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #e6ffe6;
+            color: #060;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .data-preview {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Family File Parser</h1>
+        
+        <div class="format-info">
+            <h3>Supported File Formats</h3>
+            <ul>
+                <li><strong>GEDCOM (.ged)</strong> - Standard genealogy format from Ancestry, FamilySearch, etc.</li>
+                <li><strong>CSV (.csv)</strong> - Spreadsheet exports with columns: Name, Birth Date, Death Date, etc.</li>
+                <li><strong>JSON (.json)</strong> - Modern web format with structured family data</li>
+            </ul>
+        </div>
+
+        <div class="upload-area">
+            <h3>Upload Your Family File</h3>
+            <p>Select a family file to parse and convert to our Hall Family Tree format.</p>
+            
+            <div class="file-input">
+                <input type="file" id="fileInput" accept=".ged,.csv,.json" />
+            </div>
+            
+            <button class="parse-btn" onclick="parseFile()">Parse File</button>
+            <button class="parse-btn" onclick="clearResults()">Clear</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let parsedData = null;
+
+        function parseFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showError('Please select a file first.');
+                return;
+            }
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const content = e.target.result;
+                
+                try {
+                    switch(fileExtension) {
+                        case 'ged':
+                            parsedData = parseGEDCOM(content);
+                            break;
+                        case 'csv':
+                            parsedData = parseCSV(content);
+                            break;
+                        case 'json':
+                            parsedData = parseJSON(content);
+                            break;
+                        default:
+                            showError('Unsupported file format. Please use .ged, .csv, or .json files.');
+                            return;
+                    }
+                    
+                    displayResults(parsedData, fileExtension);
+                } catch (error) {
+                    showError('Error parsing file: ' + error.message);
+                }
+            };
+
+            reader.readAsText(file);
+        }
+
+        function parseGEDCOM(content) {
+            // Basic GEDCOM parser
+            const lines = content.split('\n');
+            const people = [];
+            const families = [];
+            let currentPerson = null;
+            let currentFamily = null;
+
+            for (let line of lines) {
+                const level = parseInt(line.charAt(0));
+                const tag = line.substring(2, 6).trim();
+                const value = line.substring(7).trim();
+
+                if (level === 0 && tag === 'INDI') {
+                    if (currentPerson) people.push(currentPerson);
+                    currentPerson = {
+                        id: value,
+                        first_name: '',
+                        last_name: '',
+                        birth_date: '',
+                        death_date: '',
+                        gender: ''
+                    };
+                } else if (level === 1 && currentPerson) {
+                    if (tag === 'NAME') {
+                        const names = value.split('/');
+                        currentPerson.first_name = names[0].trim();
+                        currentPerson.last_name = names[1] ? names[1].trim() : '';
+                    } else if (tag === 'SEX') {
+                        currentPerson.gender = value;
+                    } else if (tag === 'BIRT') {
+                        // Next line should contain the date
+                    } else if (tag === 'DEAT') {
+                        // Next line should contain the date
+                    }
+                } else if (level === 2 && currentPerson) {
+                    if (tag === 'DATE') {
+                        if (lines[lines.indexOf(line) - 1].includes('BIRT')) {
+                            currentPerson.birth_date = value;
+                        } else if (lines[lines.indexOf(line) - 1].includes('DEAT')) {
+                            currentPerson.death_date = value;
+                        }
+                    }
+                }
+            }
+
+            if (currentPerson) people.push(currentPerson);
+
+            return {
+                people: people,
+                families: families,
+                events: [],
+                sources: []
+            };
+        }
+
+        function parseCSV(content) {
+            const lines = content.split('\n');
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+            const people = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim() === '') continue;
+                
+                const values = lines[i].split(',').map(v => v.trim());
+                const person = {
+                    id: (i + 1).toString(),
+                    first_name: '',
+                    last_name: '',
+                    birth_date: '',
+                    death_date: '',
+                    gender: '',
+                    notes: ''
+                };
+
+                headers.forEach((header, index) => {
+                    const value = values[index] || '';
+                    if (header.includes('first') || header.includes('given')) {
+                        person.first_name = value;
+                    } else if (header.includes('last') || header.includes('surname')) {
+                        person.last_name = value;
+                    } else if (header.includes('birth')) {
+                        person.birth_date = value;
+                    } else if (header.includes('death')) {
+                        person.death_date = value;
+                    } else if (header.includes('gender') || header.includes('sex')) {
+                        person.gender = value;
+                    } else if (header.includes('note')) {
+                        person.notes = value;
+                    }
+                });
+
+                people.push(person);
+            }
+
+            return {
+                people: people,
+                families: [],
+                events: [],
+                sources: []
+            };
+        }
+
+        function parseJSON(content) {
+            try {
+                return JSON.parse(content);
+            } catch (error) {
+                throw new Error('Invalid JSON format: ' + error.message);
+            }
+        }
+
+        function displayResults(data, format) {
+            const resultsDiv = document.getElementById('results');
+            
+            let html = `
+                <div class="success">
+                    <h3>Successfully Parsed ${format.toUpperCase()} File</h3>
+                    <p>Found ${data.people ? data.people.length : 0} people</p>
+                    <p>Found ${data.families ? data.families.length : 0} families</p>
+                </div>
+            `;
+
+            if (data.people && data.people.length > 0) {
+                html += `
+                    <div class="results">
+                        <h3>People Found:</h3>
+                        <div class="data-preview">
+                            ${data.people.slice(0, 10).map(person => 
+                                `${person.first_name} ${person.last_name} (${person.birth_date} - ${person.death_date})`
+                            ).join('\n')}
+                            ${data.people.length > 10 ? '\n... and ' + (data.people.length - 10) + ' more' : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="export-btn" onclick="exportToHallFamilyTree()">Export to Hall Family Tree</button>
+                    <button class="export-btn" onclick="downloadJSON()">Download JSON</button>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        function exportToHallFamilyTree() {
+            if (!parsedData) return;
+
+            // Convert to Hall Family Tree format
+            const hallFormat = {
+                metadata: {
+                    version: "1.0",
+                    created: new Date().toISOString().split('T')[0],
+                    last_updated: new Date().toISOString().split('T')[0],
+                    description: "Hall Family Genealogy Database - Imported from external file"
+                },
+                people: parsedData.people || [],
+                relationships: parsedData.families || [],
+                events: parsedData.events || [],
+                sources: parsedData.sources || [],
+                citations: [],
+                media: [],
+                dna_matches: []
+            };
+
+            // Create download link
+            const blob = new Blob([JSON.stringify(hallFormat, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'hall-family-tree-imported.json';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showSuccess('File exported successfully! You can now import this into your Hall Family Tree data folder.');
+        }
+
+        function downloadJSON() {
+            if (!parsedData) return;
+
+            const blob = new Blob([JSON.stringify(parsedData, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'parsed-family-data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function showError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        function showSuccess(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += `<div class="success">${message}</div>`;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('fileInput').value = '';
+            parsedData = null;
+        }
+    </script>
+</body>
+</html>

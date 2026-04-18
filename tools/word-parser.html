@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family History Word Document Parser</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: #f8f6f3;
+            color: #2c3e50;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #8b4513;
+        }
+
+        .instructions h3 {
+            color: #8b4513;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .text-input {
+            margin-bottom: 20px;
+        }
+
+        .text-input textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        .parse-btn {
+            background: #8b4513;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px 5px;
+        }
+
+        .parse-btn:hover {
+            background: #6d3410;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .section {
+            background: #f9f7f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #8b4513;
+        }
+
+        .section h3 {
+            color: #8b4513;
+            margin-bottom: 15px;
+        }
+
+        .person-item {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .person-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .person-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .date-item {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .location-item {
+            background: #fff8dc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f4f8;
+            border-radius: 8px;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d00;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #e6ffe6;
+            color: #060;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #8b4513;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Family History Word Document Parser</h1>
+        
+        <div class="instructions">
+            <h3>How to Use This Tool</h3>
+            <ol>
+                <li>Open your family history Word document</li>
+                <li>Select all text (Ctrl+A) and copy (Ctrl+C)</li>
+                <li>Paste the text into the text area below</li>
+                <li>Click "Parse Document" to extract family information</li>
+                <li>Review the extracted data and export to your Hall Family Tree</li>
+            </ol>
+            <p><strong>Tip:</strong> The parser looks for names, dates, locations, and family relationships in your text.</p>
+        </div>
+
+        <div class="text-input">
+            <h3>Paste Your Family History Text:</h3>
+            <textarea id="documentText" placeholder="Paste your Word document content here..."></textarea>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="parse-btn" onclick="parseDocument()">Parse Document</button>
+            <button class="parse-btn" onclick="clearAll()">Clear</button>
+            <button class="parse-btn" onclick="loadSample()">Load Sample</button>
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+        let parsedData = {
+            people: [],
+            dates: [],
+            locations: [],
+            relationships: []
+        };
+
+        function parseDocument() {
+            const text = document.getElementById('documentText').value;
+            
+            if (!text.trim()) {
+                showError('Please paste some text from your Word document first.');
+                return;
+            }
+
+            // Reset parsed data
+            parsedData = {
+                people: [],
+                dates: [],
+                locations: [],
+                relationships: []
+            };
+
+            // Extract people (names)
+            extractPeople(text);
+            
+            // Extract dates
+            extractDates(text);
+            
+            // Extract locations
+            extractLocations(text);
+            
+            // Extract relationships
+            extractRelationships(text);
+
+            displayResults();
+        }
+
+        function extractPeople(text) {
+            // Common name patterns
+            const namePatterns = [
+                /([A-Z][a-z]+ [A-Z][a-z]+)/g,  // First Last
+                /([A-Z][a-z]+ [A-Z][a-z]+ [A-Z][a-z]+)/g,  // First Middle Last
+                /(Mr\.|Mrs\.|Ms\.|Dr\.) ([A-Z][a-z]+ [A-Z][a-z]+)/g,  // Title Name
+                /([A-Z][a-z]+) (?:was born|died|married|son of|daughter of)/g  // Name + event
+            ];
+
+            const foundNames = new Set();
+            
+            namePatterns.forEach(pattern => {
+                const matches = text.match(pattern);
+                if (matches) {
+                    matches.forEach(match => {
+                        const name = match.replace(/(Mr\.|Mrs\.|Ms\.|Dr\.)\s/, '').trim();
+                        if (name.length > 3 && !name.includes('was') && !name.includes('died')) {
+                            foundNames.add(name);
+                        }
+                    });
+                }
+            });
+
+            // Convert to people objects
+            foundNames.forEach(name => {
+                const [first, ...rest] = name.split(' ');
+                const last = rest.pop() || '';
+                const middle = rest.join(' ');
+
+                parsedData.people.push({
+                    id: Date.now().toString() + Math.random(),
+                    first_name: first,
+                    middle_name: middle,
+                    last_name: last,
+                    full_name: name,
+                    birth_date: '',
+                    death_date: '',
+                    locations: [],
+                    relationships: []
+                });
+            });
+        }
+
+        function extractDates(text) {
+            // Date patterns
+            const datePatterns = [
+                /(\d{1,2}\/\d{1,2}\/\d{4})/g,  // MM/DD/YYYY
+                /(\d{1,2}-\d{1,2}-\d{4})/g,  // MM-DD-YYYY
+                /(\w+ \d{1,2}, \d{4})/g,  // Month DD, YYYY
+                /(\w+ \d{4})/g,  // Month YYYY
+                /(\d{4})/g  // Just year
+            ];
+
+            datePatterns.forEach(pattern => {
+                const matches = text.match(pattern);
+                if (matches) {
+                    matches.forEach(date => {
+                        parsedData.dates.push({
+                            date: date,
+                            context: getContext(text, date)
+                        });
+                    });
+                }
+            });
+        }
+
+        function extractLocations(text) {
+            // Location patterns
+            const locationPatterns = [
+                /([A-Z][a-z]+, [A-Z]{2})/g,  // City, State
+                /([A-Z][a-z]+ [A-Z][a-z]+, [A-Z]{2})/g,  // City Name, State
+                /(County of [A-Z][a-z]+)/g,  // County of Name
+                /(born in|died in|married in|lived in) ([A-Z][a-z]+(?: [A-Z][a-z]+)*)/g  // Event + Location
+            ];
+
+            const foundLocations = new Set();
+            
+            locationPatterns.forEach(pattern => {
+                const matches = text.match(pattern);
+                if (matches) {
+                    matches.forEach(match => {
+                        let location = match;
+                        if (match.includes('born in') || match.includes('died in')) {
+                            location = match.split(' ').slice(2).join(' ');
+                        }
+                        if (location.length > 2 && !location.includes('County')) {
+                            foundLocations.add(location.trim());
+                        }
+                    });
+                }
+            });
+
+            foundLocations.forEach(location => {
+                parsedData.locations.push({
+                    name: location,
+                    context: getContext(text, location)
+                });
+            });
+        }
+
+        function extractRelationships(text) {
+            // Relationship patterns
+            const relationshipPatterns = [
+                /(\w+) (?:was|is) (?:the )?(son|daughter|father|mother|husband|wife|brother|sister) of (\w+)/g,
+                /(\w+) married (\w+)/g,
+                /(\w+) and (\w+) had (?:a )?(son|daughter) named (\w+)/g,
+                /parents of (\w+) (?:were|was) (\w+) and (\w+)/g
+            ];
+
+            relationshipPatterns.forEach(pattern => {
+                const matches = text.matchAll(pattern);
+                for (const match of matches) {
+                    parsedData.relationships.push({
+                        type: getRelationshipType(match),
+                        person1: match[1],
+                        person2: match[2] || match[3],
+                        person3: match[4] || '',
+                        context: match[0]
+                    });
+                }
+            });
+        }
+
+        function getRelationshipType(match) {
+            const text = match[0].toLowerCase();
+            if (text.includes('son of')) return 'son';
+            if (text.includes('daughter of')) return 'daughter';
+            if (text.includes('father of')) return 'father';
+            if (text.includes('mother of')) return 'mother';
+            if (text.includes('husband of')) return 'husband';
+            if (text.includes('wife of')) return 'wife';
+            if (text.includes('brother of')) return 'brother';
+            if (text.includes('sister of')) return 'sister';
+            if (text.includes('married')) return 'spouse';
+            return 'related';
+        }
+
+        function getContext(text, searchTerm, radius = 50) {
+            const index = text.indexOf(searchTerm);
+            if (index === -1) return '';
+            const start = Math.max(0, index - radius);
+            const end = Math.min(text.length, index + searchTerm.length + radius);
+            return text.substring(start, end).trim();
+        }
+
+        function displayResults() {
+            const resultsDiv = document.getElementById('results');
+            
+            let html = `
+                <div class="success">
+                    <h3>Document Parsed Successfully!</h3>
+                    <p>Extracted family information from your Word document.</p>
+                </div>
+            `;
+
+            // Statistics
+            html += `
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">${parsedData.people.length}</div>
+                        <div class="stat-label">People Found</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${parsedData.dates.length}</div>
+                        <div class="stat-label">Dates Found</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${parsedData.locations.length}</div>
+                        <div class="stat-label">Locations Found</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${parsedData.relationships.length}</div>
+                        <div class="stat-label">Relationships Found</div>
+                    </div>
+                </div>
+            `;
+
+            // People section
+            if (parsedData.people.length > 0) {
+                html += `
+                    <div class="section">
+                        <h3>People Extracted (${parsedData.people.length})</h3>
+                        ${parsedData.people.map(person => `
+                            <div class="person-item">
+                                <div class="person-name">${person.full_name}</div>
+                                <div class="person-details">
+                                    ${person.first_name} ${person.middle_name} ${person.last_name}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Dates section
+            if (parsedData.dates.length > 0) {
+                html += `
+                    <div class="section">
+                        <h3>Dates Found (${parsedData.dates.length})</h3>
+                        ${parsedData.dates.slice(0, 10).map(date => `
+                            <div class="date-item">
+                                <strong>${date.date}</strong> - ${date.context.substring(0, 100)}...
+                            </div>
+                        `).join('')}
+                        ${parsedData.dates.length > 10 ? `<p>... and ${parsedData.dates.length - 10} more dates</p>` : ''}
+                    </div>
+                `;
+            }
+
+            // Locations section
+            if (parsedData.locations.length > 0) {
+                html += `
+                    <div class="section">
+                        <h3>Locations Found (${parsedData.locations.length})</h3>
+                        ${parsedData.locations.map(location => `
+                            <div class="location-item">
+                                <strong>${location.name}</strong> - ${location.context.substring(0, 100)}...
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Relationships section
+            if (parsedData.relationships.length > 0) {
+                html += `
+                    <div class="section">
+                        <h3>Relationships Found (${parsedData.relationships.length})</h3>
+                        ${parsedData.relationships.map(rel => `
+                            <div class="person-item">
+                                <div class="person-name">${rel.person1} ${rel.type} ${rel.person2}</div>
+                                <div class="person-details">${rel.context}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Export section
+            html += `
+                <div class="export-section">
+                    <h3>Export Options</h3>
+                    <button class="export-btn" onclick="exportToHallFamilyTree()">Export to Hall Family Tree</button>
+                    <button class="export-btn" onclick="exportAsJSON()">Download JSON</button>
+                    <button class="export-btn" onclick="exportAsCSV()">Download CSV</button>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        function exportToHallFamilyTree() {
+            // Convert to Hall Family Tree format
+            const hallFormat = {
+                metadata: {
+                    version: "1.0",
+                    created: new Date().toISOString().split('T')[0],
+                    last_updated: new Date().toISOString().split('T')[0],
+                    description: "Hall Family Genealogy Database - Imported from Word document",
+                    source: "Word Document Parser"
+                },
+                people: parsedData.people.map(person => ({
+                    id: person.id,
+                    first_name: person.first_name,
+                    last_name: person.last_name,
+                    middle_name: person.middle_name,
+                    birth_date: '',
+                    death_date: '',
+                    birth_location: '',
+                    death_location: '',
+                    gender: '',
+                    notes: `Extracted from Word document: ${person.full_name}`
+                })),
+                relationships: parsedData.relationships.map(rel => ({
+                    id: Date.now().toString() + Math.random(),
+                    person1_id: rel.person1,
+                    person2_id: rel.person2,
+                    relationship_type: rel.type,
+                    notes: rel.context
+                })),
+                events: parsedData.dates.map((date, index) => ({
+                    id: (index + 1).toString(),
+                    event_type: 'general',
+                    date: date.date,
+                    location: '',
+                    description: date.context
+                })),
+                sources: [{
+                    id: 'word-doc-source',
+                    title: 'Family History Word Document',
+                    author: '',
+                    publication_date: '',
+                    source_type: 'document',
+                    notes: 'Original family history document'
+                }],
+                citations: [],
+                media: [],
+                dna_matches: []
+            };
+
+            downloadJSON(hallFormat, 'hall-family-tree-from-word.json');
+            showSuccess('Data exported successfully! You can now import this file into your Hall Family Tree.');
+        }
+
+        function exportAsJSON() {
+            downloadJSON(parsedData, 'parsed-family-history.json');
+        }
+
+        function exportAsCSV() {
+            let csv = 'First Name,Middle Name,Last Name,Full Name,Notes\n';
+            parsedData.people.forEach(person => {
+                csv += `"${person.first_name}","${person.middle_name}","${person.last_name}","${person.full_name}","Extracted from Word document"\n`;
+            });
+            
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'family-history-people.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadJSON(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function loadSample() {
+            const sampleText = `John Smith was born on March 15, 1850 in New York, New York. He was the son of William Smith and Mary Johnson. John married Elizabeth Brown on June 20, 1875 in Philadelphia, Pennsylvania. They had three children: William Smith Jr. (born 1878), Mary Smith (born 1880), and Robert Smith (born 1882).
+
+William Smith Sr. was born in 1820 and died in 1890. Mary Johnson was born in 1825 and died in 1895. They lived in Brooklyn, New York for most of their lives.
+
+Elizabeth Brown was born on April 10, 1852 in Boston, Massachusetts. Her parents were Thomas Brown and Sarah Wilson. Elizabeth died on December 5, 1920 in New York City.
+
+The Smith family moved to Chicago, Illinois in 1890 where John worked as a merchant. William Smith Jr. became a doctor and married Margaret Davis in 1905. Mary Smith married James Thompson in 1903. Robert Smith never married and died in 1910.`;
+
+            document.getElementById('documentText').value = sampleText;
+        }
+
+        function clearAll() {
+            document.getElementById('documentText').value = '';
+            document.getElementById('results').innerHTML = '';
+            parsedData = {
+                people: [],
+                dates: [],
+                locations: [],
+                relationships: []
+            };
+        }
+
+        function showError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        function showSuccess(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += `<div class="success">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Photo Manager</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: #f8f6f3;
+            color: #2c3e50;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .workflow {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #8b4513;
+        }
+
+        .workflow h3 {
+            color: #8b4513;
+            margin-bottom: 15px;
+        }
+
+        .workflow ol {
+            margin-left: 20px;
+        }
+
+        .upload-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 2px dashed #8b4513;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f9f7f4;
+        }
+
+        .file-input {
+            margin: 15px 0;
+        }
+
+        .file-input input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .photo-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .photo-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .photo-info {
+            padding: 15px;
+        }
+
+        .photo-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .photo-details {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .photo-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-small {
+            background: #8b4513;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-small:hover {
+            background: #6d3410;
+        }
+
+        .metadata-form {
+            background: #f9f7f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #8b4513;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            height: 60px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            background: #8b4513;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        .btn-primary:hover {
+            background: #6d3410;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .success {
+            background: #e6ffe6;
+            color: #060;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #d00;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #8b4513;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .upload-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Family Photo Manager</h1>
+        
+        <div class="workflow">
+            <h3>Photo Management Workflow</h3>
+            <ol>
+                <li><strong>Extract photos</strong> from PDF/Word documents using screenshot tools</li>
+                <li><strong>Upload photos</strong> to this manager for cataloging</li>
+                <li><strong>Add metadata</strong> (people, dates, locations, descriptions)</li>
+                <li><strong>Link to family tree</strong> - associate photos with specific people</li>
+                <li><strong>Export organized data</strong> to Hall Family Tree database</li>
+            </ol>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="photoCount">0</div>
+                <div class="stat-label">Photos Uploaded</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="taggedCount">0</div>
+                <div class="stat-label">Photos Tagged</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="peopleCount">0</div>
+                <div class="stat-label">People Identified</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="locationsCount">0</div>
+                <div class="stat-label">Locations Tagged</div>
+            </div>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-area">
+                <h3>Upload Family Photos</h3>
+                <p>Upload photos extracted from your family documents</p>
+                <div class="file-input">
+                    <input type="file" id="photoInput" accept="image/*" multiple />
+                </div>
+                <button class="btn-primary" onclick="uploadPhotos()">Upload Photos</button>
+            </div>
+
+            <div class="metadata-form">
+                <h3>Photo Metadata</h3>
+                <div class="form-group">
+                    <label for="photoTitle">Photo Title:</label>
+                    <input type="text" id="photoTitle" placeholder="e.g., John Smith Family Portrait">
+                </div>
+                <div class="form-group">
+                    <label for="photoDate">Date Taken:</label>
+                    <input type="text" id="photoDate" placeholder="e.g., 1895, June 15 1895, circa 1900">
+                </div>
+                <div class="form-group">
+                    <label for="photoLocation">Location:</label>
+                    <input type="text" id="photoLocation" placeholder="e.g., New York, NY; Family Home">
+                </div>
+                <div class="form-group">
+                    <label for="photoPeople">People in Photo:</label>
+                    <input type="text" id="photoPeople" placeholder="e.g., John Smith, Mary Smith, William Smith Jr.">
+                </div>
+                <div class="form-group">
+                    <label for="photoDescription">Description:</label>
+                    <textarea id="photoDescription" placeholder="Describe the photo, occasion, clothing, setting..."></textarea>
+                </div>
+                <button class="btn-primary" onclick="applyMetadata()">Apply to Selected</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button class="btn-primary" onclick="exportToHallFamilyTree()">Export to Hall Family Tree</button>
+            <button class="btn-secondary" onclick="downloadJSON()">Download JSON</button>
+            <button class="btn-secondary" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div id="photoGallery" class="photo-grid"></div>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let photos = [];
+        let selectedPhotos = new Set();
+
+        function uploadPhotos() {
+            const input = document.getElementById('photoInput');
+            const files = Array.from(input.files);
+            
+            if (files.length === 0) {
+                showError('Please select photos to upload.');
+                return;
+            }
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const photo = {
+                        id: Date.now().toString() + index,
+                        filename: file.name,
+                        dataUrl: e.target.result,
+                        title: file.name.replace(/\.[^/.]+$/, ""),
+                        date: '',
+                        location: '',
+                        people: [],
+                        description: '',
+                        tags: [],
+                        uploaded: new Date().toISOString()
+                    };
+                    
+                    photos.push(photo);
+                    updateGallery();
+                    updateStats();
+                };
+                
+                reader.readAsDataURL(file);
+            });
+            
+            showSuccess(`Uploaded ${files.length} photo(s). Add metadata below.`);
+        }
+
+        function updateGallery() {
+            const gallery = document.getElementById('photoGallery');
+            
+            if (photos.length === 0) {
+                gallery.innerHTML = '<p style="text-align: center; color: #666;">No photos uploaded yet. Upload family photos to get started.</p>';
+                return;
+            }
+
+            gallery.innerHTML = photos.map(photo => `
+                <div class="photo-card" data-photo-id="${photo.id}">
+                    <img src="${photo.dataUrl}" alt="${photo.title}" class="photo-preview" onclick="selectPhoto('${photo.id}')">
+                    <div class="photo-info">
+                        <div class="photo-title">${photo.title}</div>
+                        <div class="photo-details">
+                            ${photo.date ? `Date: ${photo.date}<br>` : ''}
+                            ${photo.location ? `Location: ${photo.location}<br>` : ''}
+                            ${photo.people.length > 0 ? `People: ${photo.people.join(', ')}<br>` : ''}
+                        </div>
+                        <div class="photo-actions">
+                            <button class="btn-small" onclick="editPhoto('${photo.id}')">Edit</button>
+                            <button class="btn-small" onclick="deletePhoto('${photo.id}')">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectPhoto(photoId) {
+            const card = document.querySelector(`[data-photo-id="${photoId}"]`);
+            
+            if (selectedPhotos.has(photoId)) {
+                selectedPhotos.delete(photoId);
+                card.style.border = '1px solid #ddd';
+            } else {
+                selectedPhotos.add(photoId);
+                card.style.border = '3px solid #8b4513';
+            }
+        }
+
+        function applyMetadata() {
+            if (selectedPhotos.size === 0) {
+                showError('Please select photos first by clicking on them.');
+                return;
+            }
+
+            const metadata = {
+                title: document.getElementById('photoTitle').value,
+                date: document.getElementById('photoDate').value,
+                location: document.getElementById('photoLocation').value,
+                people: document.getElementById('photoPeople').value.split(',').map(p => p.trim()).filter(p => p),
+                description: document.getElementById('photoDescription').value
+            };
+
+            selectedPhotos.forEach(photoId => {
+                const photo = photos.find(p => p.id === photoId);
+                if (photo) {
+                    if (metadata.title) photo.title = metadata.title;
+                    if (metadata.date) photo.date = metadata.date;
+                    if (metadata.location) photo.location = metadata.location;
+                    if (metadata.people.length > 0) photo.people = metadata.people;
+                    if (metadata.description) photo.description = metadata.description;
+                }
+            });
+
+            updateGallery();
+            updateStats();
+            clearMetadataForm();
+            showSuccess(`Applied metadata to ${selectedPhotos.size} photo(s).`);
+            selectedPhotos.clear();
+        }
+
+        function editPhoto(photoId) {
+            const photo = photos.find(p => p.id === photoId);
+            if (photo) {
+                document.getElementById('photoTitle').value = photo.title;
+                document.getElementById('photoDate').value = photo.date;
+                document.getElementById('photoLocation').value = photo.location;
+                document.getElementById('photoPeople').value = photo.people.join(', ');
+                document.getElementById('photoDescription').value = photo.description;
+                selectedPhotos.clear();
+                selectedPhotos.add(photoId);
+                selectPhoto(photoId);
+            }
+        }
+
+        function deletePhoto(photoId) {
+            if (confirm('Are you sure you want to delete this photo?')) {
+                photos = photos.filter(p => p.id !== photoId);
+                selectedPhotos.delete(photoId);
+                updateGallery();
+                updateStats();
+                showSuccess('Photo deleted.');
+            }
+        }
+
+        function clearMetadataForm() {
+            document.getElementById('photoTitle').value = '';
+            document.getElementById('photoDate').value = '';
+            document.getElementById('photoLocation').value = '';
+            document.getElementById('photoPeople').value = '';
+            document.getElementById('photoDescription').value = '';
+        }
+
+        function updateStats() {
+            document.getElementById('photoCount').textContent = photos.length;
+            document.getElementById('taggedCount').textContent = photos.filter(p => p.title || p.date || p.people.length > 0).length;
+            
+            const allPeople = new Set();
+            const allLocations = new Set();
+            
+            photos.forEach(photo => {
+                photo.people.forEach(person => allPeople.add(person));
+                if (photo.location) allLocations.add(photo.location);
+            });
+            
+            document.getElementById('peopleCount').textContent = allPeople.size;
+            document.getElementById('locationsCount').textContent = allLocations.size;
+        }
+
+        function exportToHallFamilyTree() {
+            if (photos.length === 0) {
+                showError('No photos to export.');
+                return;
+            }
+
+            const hallFormat = {
+                metadata: {
+                    version: "1.0",
+                    created: new Date().toISOString().split('T')[0],
+                    last_updated: new Date().toISOString().split('T')[0],
+                    description: "Hall Family Photo Collection",
+                    source: "Photo Manager Tool"
+                },
+                media: photos.map(photo => ({
+                    id: photo.id,
+                    filename: photo.filename,
+                    media_type: 'photo',
+                    title: photo.title,
+                    date_taken: photo.date,
+                    location: photo.location,
+                    description: photo.description,
+                    people: photo.people,
+                    tags: photo.tags,
+                    data_url: photo.dataUrl,
+                    uploaded: photo.uploaded
+                })),
+                people: [],
+                relationships: [],
+                events: [],
+                sources: [],
+                citations: [],
+                dna_matches: []
+            };
+
+            downloadJSON(hallFormat, 'hall-family-tree-photos.json');
+            showSuccess('Photo data exported successfully! Add this to your Hall Family Tree media folder.');
+        }
+
+        function downloadJSON() {
+            const data = {
+                photos: photos,
+                metadata: {
+                    exported: new Date().toISOString(),
+                    total_photos: photos.length,
+                    tagged_photos: photos.filter(p => p.title || p.date || p.people.length > 0).length
+                }
+            };
+            
+            downloadJSON(data, 'family-photos.json');
+        }
+
+        function downloadJSON(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all photos? This cannot be undone.')) {
+                photos = [];
+                selectedPhotos.clear();
+                updateGallery();
+                updateStats();
+                clearMetadataForm();
+                showSuccess('All photos cleared.');
+            }
+        }
+
+        function showError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">${message}</div>`;
+            setTimeout(() => {
+                resultsDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="success">${message}</div>`;
+            setTimeout(() => {
+                resultsDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Initialize
+        updateGallery();
+        updateStats();
+    </script>
+</body>
+</html>
