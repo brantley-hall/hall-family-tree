@@ -23,6 +23,7 @@ hall-family-tree/
 |   `-- assets/               # Images and resources
 |-- exports/                  # GEDCOM and other exports
 |-- docs/                     # Documentation
+|   |-- final-ledger.md       # Asa Hall research summary (2026)
 `-- backups/                  # Regular data backups
 ```
 
@@ -55,4 +56,4 @@ Family data remains private. Code and structure may be shared under appropriate 
 
 ---
 
-*Last updated: 2026-04-18*
+*Last updated: 2026-07-19*
