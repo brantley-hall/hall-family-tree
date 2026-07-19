@@ -1,4 +1,4 @@
-# Confirmed (corrected) Lineage of Montgomery County, Virginia Hall Family: Reconstructing the Historical and Genetic Reality of Asa Hall (1758–1841)
+# Corrected Lineage of Revolutionary Soldiers Asa and Jesse Hall of Montgomery County, Virginia: Reconstructing the Historical and Genetic Reality of an Early Montgomery County Family
 
 ## 2026 Revision and Corroboration of the 2000 Hall Lineage Study
 
