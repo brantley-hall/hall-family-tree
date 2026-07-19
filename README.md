@@ -24,6 +24,9 @@ hall-family-tree/
 |-- exports/                  # GEDCOM and other exports
 |-- docs/                     # Documentation
 |   |-- final-ledger.md       # Asa Hall research summary (2026)
+|   |-- final-ledger.html     # Print-ready manuscript
+|   |-- final-ledger.pdf      # Generated print PDF
+|   `-- build-pdf.bat         # Regenerate PDF from HTML
 `-- backups/                  # Regular data backups
 ```
 
@@ -53,6 +56,12 @@ This repository contains sensitive family information. Access should be limited 
 ## License
 
 Family data remains private. Code and structure may be shared under appropriate license for family use.
+
+## Updating the Final Ledger PDF
+
+1. Edit `docs/final-ledger.html` (or `docs/final-ledger.md` and convert).
+2. Double-click `docs/build-pdf.bat` to regenerate `docs/final-ledger.pdf`.
+3. Commit and push both files.
 
 ---
 
