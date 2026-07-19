@@ -1,4 +1,4 @@
-# Does Hall Really Challenge the DAR?: Reconstructing the Historical and Genetic Reality of Asa Hall (1758–1841)
+# Confirmed (corrected) Lineage of Montgomery County, Virginia Hall Family: Reconstructing the Historical and Genetic Reality of Asa Hall (1758–1841)
 
 ## 2026 Revision and Corroboration of the 2000 Hall Lineage Study
 
