@@ -12,40 +12,40 @@
 
 For decades, institutional genealogical records incorrectly linked the pioneer Asa Hall of Montgomery County, Virginia, to an aristocratic colonial lineage out of Wallingford, Connecticut. That connection was based on the volatile methodology of surname-matching across distinct regional archives, amplified by the 1970 DAR publication *A Slice of History: A Story of a Hall Family of America*.
 
-This ledger systematically dismantles that folklore by combining four independent lines of evidence:
+This ledger revisits and corrects the speculative Connecticut hypotheses advanced in Hall (2000), deferring throughout to the more rigorous Rhode Island synthesis by Wanda Ware DeGidio. It brings together four converging lines of evidence:
 
-1. **Genetic genealogy** — Y-DNA haplogroup analysis of direct male-line descendants.
-2. **Scholarly lineage research** — the synthesis of Wanda Ware DeGidio on the Rhode Island Hall line.
-3. **Primary land records** — Virginia state land grants demonstrating independent frontier land tenure.
-4. **Probate evidence** — the 1841 estate appraisement and dower allotment, which provide the material reality of Asa Hall's life.
+1. **Scholarly lineage research** — DeGidio's reconstruction of the Rhode Island-to-New York Hall line.
+2. **Primary land records** — Virginia state land grants demonstrating independent frontier land tenure.
+3. **Probate evidence** — the 1841 estate appraisement and dower allotment, which provide the material reality of Asa Hall's life.
+4. **Genetic genealogy** — Y-DNA data that are *consistent with* DeGidio's framework and inconsistent with the Connecticut hypothesis, but are treated as supportive rather than conclusive.
 
-The result is an evidence-based biography of a Revolutionary War veteran and Appalachian pioneer whose legacy has been obscured by repeated archival conflations.
-
----
-
-## Preface: The 2000 Foundation
-
-This report builds directly upon the original Hall lineage study completed in 2000. That earlier work first identified the inconsistencies in existing DAR narratives and set the critical research questions that this document now resolves.
-
-The 2000 manuscript established the documentary trail pointing away from the Wallingford, Connecticut line. What was missing at that time was the genetic corroboration and the broader migration context provided by modern DNA testing and by DeGidio's Rhode Island research. This 2026 revision brings those missing pillars to the original foundation.
+The result is a corrected, evidence-based biography of a Revolutionary War veteran and Appalachian pioneer whose legacy was clouded by earlier long-shot theories and institutional name-matching.
 
 ---
 
-## Section I: The Foundation of Empirical Proof — Y-DNA Analysis
+## Preface: From the 2000 Foundation to a Corrected Narrative
 
-For decades, institutional lineage records incorrectly linked the pioneer Asa Hall of Montgomery County to a prominent colonial lineage out of Wallingford, Connecticut. This connection was predicated entirely on the highly volatile methodology of surname-matching across distinct regional archives. Modern genetic genealogy has provided an empirical resolution to this error.
+The original Hall lineage study completed in 2000 performed valuable service by questioning the 1970 DAR narrative and by assembling the early Virginia land records and probate materials that anchor this report. It also, however, advanced long-shot theories—most notably a tentative Wallingford, Connecticut, ancestry—that are not supported by the documentary or genetic evidence now available.
 
-Paternal lineages from the Connecticut-based Hall families consistently exhibit the **R-M269 haplogroup**, a genetic marker highly prevalent across Western Europe and common among New England settlers. Conversely, deep-clade Y-DNA testing of direct, documented male-line descendants of the Southwest Virginia Hall family reveals a distinct classification within **Haplogroup G-M201** (specifically the rare G2a subgroup).
+This 2026 revision rejects those speculative hypotheses and defers instead to Wanda Ware DeGidio's detailed reconstruction of the Rhode Island Hall line. Where the 2000 manuscript could only raise possibilities, DeGidio's work provides the documented migration path from Rhode Island through New York to the Virginia frontier. DNA and the Virginia primary records are presented here as corroborating, not supplanting, her lineage research.
 
-Haplogroup G2a is an exceptionally rare lineage in Northern Europe, often associated with isolated mountainous pockets of Southern Europe, ancient Anatolian migrations, and high-status early European archaeological remains—such as the Merovingian-period warrior burials at Ergolding. Because mutations defining a haplogroup remain constant over hundreds of generations, the absolute divergence between the R-M269 lineage of New England and the G-M201 lineage of the Southwest Virginia frontier establishes a biological barrier.
+---
 
-**Conclusion:** It is genetically impossible for the Montgomery County pioneer to share a recent paternal line with the Connecticut estate families.
+## Section I: Y-DNA as a Check, Not a Proof
+
+The 2000 manuscript entertained a possible Connecticut origin for the Montgomery County Halls, and the 1970 DAR publication asserted one. Neither was grounded in the careful, locality-by-locality documentation that DeGidio later supplied. Genetic testing now offers a useful check on those long-shot theories without replacing the need for paper-trail research.
+
+Paternal lineages from the Connecticut-based Hall families consistently exhibit the **R-M269 haplogroup**, common among many New England settlers. Direct, documented male-line descendants of the Southwest Virginia Hall family carry a different classification within **Haplogroup G-M201** (the G2a subgroup). This mismatch means that the Southwest Virginia Halls do not share a recent paternal ancestor with the Connecticut Hall families that were proposed as kin.
+
+On its own, a haplogroup does not name an ancestor or prove a specific lineage. It can, however, rule out a recent shared paternal line. Because the proposed Connecticut connection rests on name-matching rather than continuous documentation, the Y-DNA finding supports the decision to set that long-shot theory aside and follow DeGidio's documented Rhode Island-to-New York migration path.
+
+**Conclusion:** The genetic profile is incompatible with a recent paternal link to the Connecticut Hall families. It is consistent with the separate Rhode Island branch traced by DeGidio, and it underscores why the Connecticut hypothesis should no longer be pursued.
 
 ---
 
 ## Section II: The Rhode Island to New York Migration — The DeGidio Synthesis
 
-With the Connecticut lineage disproven by genetic evidence, the definitive paper-trail and migration framework is provided by the scholarly research of **Wanda Ware DeGidio**. Her work correctly aligns the Southwest Virginia branch with the historical movements of the John Hall of Rhode Island line, matching both the geographical progression and the rare G2a genetic signature.
+With the Connecticut hypothesis rejected as a long-shot unsupported by the sources, the working account of the Hall line follows the migration framework established by **Wanda Ware DeGidio**. Her research provides the continuous, locality-based documentation that the 2000 study lacked. The Y-DNA profile is treated here as a supporting clue, not as the foundation of the argument.
 
 The true paternal lineage develops across seven generations:
 
@@ -58,7 +58,7 @@ John Hall I (Rhode Island)
           → Asa Hall / Jesse Hall (Montgomery County, VA)
 ```
 
-While the family’s earliest American roots are in Rhode Island, mid-eighteenth-century land movements saw Benajah Hall shift his family northward and westward into the colonial borders of New York. This New York residency provides the crucial context for Asa Hall's Revolutionary War service, correcting institutional records that conflated him with soldiers from the Connecticut Line or with the 1777 military census of Hopkinton, Rhode Island.
+According to DeGidio's reconstruction, the family's earliest American roots are in Rhode Island. Mid-eighteenth-century land movements then carried Benajah Hall's family northward and westward into the colonial borders of New York. This New York residency supplies the context for Asa Hall's Revolutionary War service in New York regiments and explains why institutional name indexes mistakenly associated him with Connecticut and Rhode Island soldiers of the same name.
 
 As documented in his congressional pension file granted on June 17, 1833, Asa Hall enlisted in New York. His military records detail the following service:
 
@@ -116,27 +116,27 @@ This legal description fixes Asa Hall's residence within a known community of na
 | Category | Institutional Folklore (1970 DAR Narrative) | Documented Historical Reality (The Final Ledger) |
 |---|---|---|
 | **Paternal Ancestry** | Derived from an aristocratic Wallingford, Connecticut line. | Traced to John Hall of Rhode Island via Benajah Hall of New York. |
-| **Y-DNA Haplogroup** | R-M269 (Standard Western European / New England) | G-M201 / G2a (Rare ancient European / Appalachian marker) |
+| **Y-DNA Haplogroup** | R-M269 (Standard Western European / New England) | G-M201 / G2a; not shared with Connecticut Halls, consistent with DeGidio's separate Rhode Island branch |
 | **Revolutionary Service** | Conflated with Connecticut Continental Line units. | New York Regiments (Captains Pierce and Salisbury); fought at Long Island, White Plains, and Saratoga. |
-| **Frontier Character** | Speculative hunter / undocumented scout. | Landed agriculturalist; consolidated over 300 acres via formal Virginia Treasury Warrants. |
+| **Frontier Character** | Speculative hunter / undocumented scout. | Landed agriculturalist; Virginia land records describe continuous settlement and farming. |
 | **Material Estate** | Heir to a grand New England fortune. | Utilitarian frontier farmstead; documented via agricultural tools, weaving wheels, and a personal library of religious texts. |
 
 ---
 
 ## Conclusion: Restoring the Legacy
 
-By replacing ancestral folklore with verifiable DNA profiles and local land records, this ledger permanently corrects the historiography of Asa Hall. He is restored to his rightful place in history: not as an ornament of an unrelated New England family, but as a true veteran of the American Revolution and an independent pioneer of the Roanoke Valley.
+This 2026 revision corrects the speculative hypotheses advanced in Hall (2000) and defers to the more securely documented Rhode Island-to-New York framework developed by Wanda Ware DeGidio. Asa Hall is restored to his rightful place in history: not as a descendant of an unrelated Connecticut estate, but as a Revolutionary War veteran and an independent pioneer of the Roanoke Valley.
 
-The evidence—genetic, scholarly, legal, and material—converges on a single, coherent life. That life was not defined by inherited wealth or aristocratic lineage, but by deliberate migration, military service, land acquisition, and the steady accumulation of a modest, working farmstead on the Appalachian frontier.
+The evidence—DeGidio's lineage research, Virginia land records, the 1841 probate inventory, and the Y-DNA profile—converges on a single, coherent life. That life was defined not by inherited wealth or aristocratic lineage, but by deliberate migration, military service, careful land acquisition, and the steady accumulation of a modest, working farmstead on the Appalachian frontier.
 
-This 2026 revision honors the foundation laid in the 2000 study. It transforms early scholarly intuition into a documented, genetically verified, and permanently archivable record.
+Where the 2000 study raised possibilities, this ledger closes them: the Connecticut/Wallingford theory is rejected as a long-shot, and the family story is placed on the documented foundation that DeGidio provides.
 
 ---
 
 ## Sources and References
 
-- **DeGidio, Wanda Ware.** *Lineage of the Descendants of John Hall of Rhode Island*. www.hallfamilyname.com.
-- **Hall, Roderick A.** *A Slice of History: A Story of a Hall Family of America*, Version 1.2 (2000).
+- **DeGidio, Wanda Ware.** *Lineage of the Descendants of John Hall of Rhode Island*. www.hallfamilyname.com. (Primary authority for the Rhode Island line.)
+- **Hall, Roderick A.** *A Slice of History: A Story of a Hall Family of America*, Version 1.2 (2000). (Identified the DAR problems and assembled early Virginia records; its Connecticut speculations are rejected here.)
 - **Kegley, Mary B.** *Virginia Frontier: The Beginning of the Southwest*. p. 611.
 - **Montgomery County, Virginia.** Land grant records (1785, 1803, 1815).
 - **Montgomery County, Virginia.** Will Book 6, pp. 325–326 (1841 appraisement and dower allotment).
