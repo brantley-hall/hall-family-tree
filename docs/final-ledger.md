@@ -10,7 +10,7 @@
 
 ## Abstract
 
-For decades, institutional genealogical records incorrectly linked the pioneer Asa Hall of Montgomery County, Virginia, to an aristocratic colonial lineage out of Wallingford, Connecticut. That connection was based on the volatile methodology of surname-matching across distinct regional archives, amplified by a 1970 DAR lineage record and later preserved in Hall (2000), *A Slice of History: A Story of a Hall Family of America*.
+For decades, institutional genealogical records incorrectly linked the pioneer Asa Hall of Montgomery County, Virginia, to an aristocratic colonial lineage out of Wallingford, Connecticut. It now appears almost certain that connection was based on the volatile methodology of surname-matching across distinct regional archives, amplified by a 1970 DAR lineage record titled *The Hall Family History Montgomery County, Virginia 1605–1922* and later preserved in my hard copy (2000), *A Slice of History: A Story of a Hall Family of America*.
 
 This ledger revisits and corrects the speculative Connecticut hypotheses advanced in Hall (2000), deferring throughout to the more rigorous Rhode Island synthesis by Wanda Ware DeGidio. It brings together four converging lines of evidence:
 
