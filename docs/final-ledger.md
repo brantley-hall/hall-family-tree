@@ -10,7 +10,7 @@
 
 ## Abstract
 
-For decades, institutional genealogical records incorrectly linked the pioneer Asa Hall of Montgomery County, Virginia, to an aristocratic colonial lineage out of Wallingford, Connecticut. That connection was based on the volatile methodology of surname-matching across distinct regional archives, amplified by the 1970 DAR publication *A Slice of History: A Story of a Hall Family of America*.
+For decades, institutional genealogical records incorrectly linked the pioneer Asa Hall of Montgomery County, Virginia, to an aristocratic colonial lineage out of Wallingford, Connecticut. That connection was based on the volatile methodology of surname-matching across distinct regional archives, amplified by a 1970 DAR lineage record and later preserved in Hall (2000), *A Slice of History: A Story of a Hall Family of America*.
 
 This ledger revisits and corrects the speculative Connecticut hypotheses advanced in Hall (2000), deferring throughout to the more rigorous Rhode Island synthesis by Wanda Ware DeGidio. It brings together four converging lines of evidence:
 
@@ -25,7 +25,7 @@ The result is a corrected, evidence-based biography of a Revolutionary War veter
 
 ## Preface: From the 2000 Foundation to a Corrected Narrative
 
-The original Hall lineage study completed in 2000 performed valuable service by questioning the 1970 DAR narrative and by assembling the early Virginia land records and probate materials that anchor this report. It also, however, advanced long-shot theories—most notably a tentative Wallingford, Connecticut, ancestry—that are not supported by the documentary or genetic evidence now available.
+The original Hall lineage study completed in 2000, later compiled as *A Slice of History: A Story of a Hall Family of America*, performed valuable service by questioning a 1970 DAR lineage record it contained and by assembling the early Virginia land records and probate materials that anchor this report. That compilation also preserved some long-shot theories—most notably a tentative Wallingford, Connecticut, ancestry—that are not supported by the documentary or genetic evidence now available.
 
 This 2026 revision rejects those speculative hypotheses and defers instead to Wanda Ware DeGidio's detailed reconstruction of the Rhode Island Hall line. Where the 2000 manuscript could only raise possibilities, DeGidio's work provides the documented migration path from Rhode Island through New York to the Virginia frontier. DNA and the Virginia primary records are presented here as corroborating, not supplanting, her lineage research.
 
@@ -33,7 +33,7 @@ This 2026 revision rejects those speculative hypotheses and defers instead to Wa
 
 ## Section I: Y-DNA as a Check, Not a Proof
 
-The 2000 manuscript entertained a possible Connecticut origin for the Montgomery County Halls, and the 1970 DAR publication asserted one. Neither was grounded in the careful, locality-by-locality documentation that DeGidio later supplied. Genetic testing now offers a useful check on those long-shot theories without replacing the need for paper-trail research.
+A 1970 DAR lineage record, preserved in Hall's 2000 compilation *A Slice of History: A Story of a Hall Family of America*, asserted a possible Connecticut origin for the Montgomery County Halls. That assertion was not grounded in the careful, locality-by-locality documentation that DeGidio later supplied. Genetic testing now offers a useful check on those long-shot theories without replacing the need for paper-trail research.
 
 Paternal lineages from the Connecticut-based Hall families consistently exhibit the **R-M269 haplogroup**, common among many New England settlers. Direct, documented male-line descendants of the Southwest Virginia Hall family carry a different classification within **Haplogroup G-M201** (the G2a subgroup). This mismatch means that the Southwest Virginia Halls do not share a recent paternal ancestor with the Connecticut Hall families that were proposed as kin.
 
@@ -136,7 +136,8 @@ Where the 2000 study raised possibilities, this ledger closes them: the Connecti
 ## Sources and References
 
 - **DeGidio, Wanda Ware.** *Lineage of the Descendants of John Hall of Rhode Island*. www.hallfamilyname.com. (Primary authority for the Rhode Island line.)
-- **Hall, Roderick A.** *A Slice of History: A Story of a Hall Family of America*, Version 1.2 (2000). (Identified the DAR problems and assembled early Virginia records; its Connecticut speculations are rejected here.)
+- **Hall, Roderick A.** *A Slice of History: A Story of a Hall Family of America* (2000). (A companion compilation of several documents, including a 1970 DAR lineage record, made in support of the author's genealogical records; its Connecticut speculations are rejected here.)
+- **Daughters of the American Revolution (DAR).** 1970 lineage record (preserved in Hall 2000).
 - **Kegley, Mary B.** *Virginia Frontier: The Beginning of the Southwest*. p. 611.
 - **Montgomery County, Virginia.** Land grant records (1785, 1803, 1815).
 - **Montgomery County, Virginia.** Will Book 6, pp. 325–326 (1841 appraisement and dower allotment).
