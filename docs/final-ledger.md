@@ -8,6 +8,20 @@
 
 ---
 
+## Foreword: From the 2000 Compilation to the 2026 Revision
+
+In 2000 I compiled *A Slice of History: A Story of a Hall Family of America* as a record of the Hall family of Montgomery County, Virginia. The volume gathered old family papers, correspondence, and published genealogical material into one place so that the next generation would have something concrete to work with. Among the documents it preserved was a 1970 lineage record prepared by the Daughters of the American Revolution, *The Hall Family History Montgomery County, Virginia 1605–1922*. At the time, that record offered the most detailed narrative available: it traced the Montgomery County Halls back to an aristocratic Wallingford, Connecticut line and gave the family a tidy, distinguished origin.
+
+The 2000 compilation reproduced that record faithfully. It was not meant to be the final word; it was meant to preserve the documents then in circulation. Yet because the DAR record carried an institutional stamp, its Connecticut hypothesis was repeated in county histories, online trees, and my own pages long after its weaknesses should have been apparent. The record did not rest on continuous, locality-by-locality evidence. It rested on names that looked alike in different states, a method that can invent connections as easily as it finds them.
+
+A quarter-century later, new evidence has made a very different story unavoidable. Direct male-line Y-DNA testing places the Hall paternal line in **haplogroup G-M201**, specifically the G2a subgroup. The Connecticut Hall families that the 1970 record proposed as ancestors belong consistently to **haplogroup R-M269**. These two signatures diverged many thousands of years ago; they cannot represent a recent paternal ancestor. My own test, and the results of matching Hall descendants in the FamilyTreeDNA Hall surname project, confirm the same G-M201 signature. The Connecticut hypothesis is therefore genetically impossible.
+
+Equally important, the independent research of **Wanda Ware DeGidio** has reconstructed a continuous Rhode Island–to–New York Hall line that leads to Montgomery County, Virginia, without passing through Connecticut. Virginia land patents and the 1841 probate inventory anchor Asa Hall’s life firmly in the Roanoke Valley. The result is a documented, evidence-based account rather than an inherited story.
+
+This 2026 revision deliberately keeps *A Slice of History* in the record as a source of original documents, including the 1970 DAR record, but it rejects the Connecticut speculations that record advanced. The monograph that follows restores the Hall family to its actual historical setting: Revolutionary War service in New York regiments, migration to the Virginia frontier, and a life built on land, livestock, and literacy in the Roanoke Valley.
+
+---
+
 ## Abstract
 
 For decades, genealogical records incorrectly linked the pioneer Asa Hall of Montgomery County, Virginia, to an aristocratic Connecticut lineage. This 2026 revision demonstrates that the decisive evidence comes from Y-DNA haplogroup **G-M201** (defined by the M201 mutation), which directly refutes the Connecticut hypothesis and points instead to the Rhode Island-to-New York Hall line documented by Wanda Ware DeGidio. The report is organized as follows:
